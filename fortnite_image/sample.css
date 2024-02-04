@@ -1,15 +1,206 @@
 
+            #TheWeekndBundle {
+            background-color: rgb(46, 40, 118);
+            }
+            
+            #BirdsofaFeatherBundle {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Ali-A {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #SypherPK {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #TheWeekndCombat {
+            background-color: rgb(46, 40, 118);
+            }
+            
+            #FocalPointBundle {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #MeownstrosityBundle {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Bugha {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Chica {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Lachlan {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #TheGrefg {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Bandolier {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #JackSkellington {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Lace {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Starfish {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #PWRSlicers {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #JacksSled {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Bandolette {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Bryne {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Budge {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Focus {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Heartbreaker {
+            background-color: rgb(46, 40, 118);
+            }
+            
+            #PhantomMeowscles {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Sgt.Drake {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #TexFlamingo {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Zadie {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #AidasEdge {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Ali-TechStaff {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #BughaBlades {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #StaffofControl {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #SyphersScimitar {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #CoralCruiser {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #CosmicPeckAxe {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #FishboneCleaver {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Fixation {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #FreshFish {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #PeppermintParasol {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Scampi {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Vision {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #VisionBoard {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #aXe-O {
+            background-color: rgb(46, 40, 118);
+            }
+            
+            #PopularVibe {
+            background-color: rgb(46, 40, 118);
+            }
+            
+            #Headbanger {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Bootstraps {
+            background-color: rgb(5, 52, 57);
+            }
+            
+            #Jubilation {
+            background-color: rgb(5, 52, 57);
+            }
+            
         body {
         background-color: black;
         color: white;
         display: flex;
         flex-direction: column;
         align-items: center;
+        height: 100vh;
+        }
+        #footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        color: white;
+        font-size: 20px;
+        font-style: italic;
         }
 
         section {
         display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(14, minmax(0, 1fr));
         width: 100%;
         }
 
@@ -21,20 +212,32 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        font-size: 10px;
         }
 
         img {
         width: 99%;
         }
         .v-bucks-logo {
-        width:20px;
+        width: 10px;
         }
         .price {
         display: flex;
         flex-direction: row;
         align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        --tw-space-x-reverse: 0;
+        margin-right: calc(1rem/* 5px */ * var(--tw-space-x-reverse));
+        margin-left: calc(1rem/* 5px */ * calc(1 - var(--tw-space-x-reverse)));
         }
         h1 {
         font-size: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+        span {
+        line-height: 13px;
         }
         

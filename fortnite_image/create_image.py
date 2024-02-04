@@ -7,23 +7,42 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
-import time
+
+from PIL import Image
+from io import BytesIO
+
+import os
 
 api = fortnite_api.FortniteAPI('9ffab28b-c928-4dfe-a43b-26d3b3b5ce58')
 GREEN = '\033[92m'
 RED = '\033[91m'
 RESET = '\033[0m'
 
+def get_dominant_color(image_url):
+    # Download the image from the URL
+    response = requests.get(image_url)
+    img = Image.open(BytesIO(response.content))
+
+    # Resize the image to 1x1 pixel
+    img = img.resize((1, 1))
+
+    # Get the color
+    dominant_color = img.getpixel((0, 0))
+    return dominant_color
+
+dominant_color = ''
+css_content = """"""
+
 def get_daily_item_shop():
     try:
-        new_items = get_new_items()
+        new_items = 0
 
         current_shop = api.shop.fetch()
         
         date_str = current_shop.raw_data['date']
-        date_obj = datetime.fromisoformat(date_str.rstrip('Z'))
 
-        date = date_obj.strftime('%A, %B %d, %Y')
+        date_obj = datetime.fromisoformat(date_str.rstrip('Z'))
+        date = date_obj.strftime('%Y-%m-%d')
 
         data_to_save = current_shop.raw_data['featured']['entries']
 
@@ -34,6 +53,8 @@ def get_daily_item_shop():
             file.write(json_data)
 
         print(GREEN + "Data saved to featured_items.json")
+
+        total_items = len(data_to_save)
 
         # HTML content
         html_content = f"""
@@ -46,14 +67,16 @@ def get_daily_item_shop():
         <title>Document</title>
         </head>
         <body>
-        <h1><span>Fortnite Item Shop</span><br /><span>{date}</span><br /><span>Shop Items {len(data_to_save)} ({new_items} New Items)</span></h1>
-
-        <section>
         """
+        html_content_div = """"""
 
         # Adding repeated div elements
         for data in data_to_save:
             price = data['finalPrice']
+            bg = data['layout']['background']
+            if bg:
+                global dominant_color
+                dominant_color = get_dominant_color(bg)
 
             if data['bundle']:
                 image = data['bundle']['image']
@@ -62,36 +85,67 @@ def get_daily_item_shop():
                 image = data['items'][0]['images']['featured']
                 name = data['devName'].split(',')[0].replace('[VIRTUAL]1 x', '')
                 name = name.split(' for ')[0]
+            joined_name = ''.join(name.split()).replace("'", "")
+            
+            item_history = len(data['items'][0]['shopHistory'])
+            if item_history == 1:
+                new_items += 1
             
             if not image:
+                total_items -= 1
                 continue
-            html_content += f"""
-            <div>
+
+            html_content_div += f"""
+            <div id={joined_name}>
                 <img src={image} alt="product" />
-                <P>{name}<br /> <span class="price"><img class="v-bucks-logo" src="{current_shop.raw_data['vbuckIcon']}" alt="">{price}</span></p>
+                <P>{name}<br /> <span class="price"><span><img class="v-bucks-logo" src="{current_shop.raw_data['vbuckIcon']}" alt="">{price}</span> <span>{item_history} Days</span></span></p>
             </div>
             """
+            global css_content
+            css_content += f"""
+            #{joined_name} {{
+            background-color: rgb{dominant_color};
+            }}
+            """
 
-        # Closing section and body tags
-        html_content += """
+        html_content += f"""
+        <h1>
+            <span>Fortnite Item Shop</span>
+            <span>{date}</span>
+            <span>Shop Items {total_items} ({new_items} New Items)</span>
+        </h1>
+
+        <section>
+            {html_content_div}
         </section>
+        <section id='footer'>hipdiscovery</section>
         </body>
         </html>
         """
 
-        # CSS content
-        css_content = """
+        css_content += """
         body {
         background-color: black;
         color: white;
         display: flex;
         flex-direction: column;
         align-items: center;
+        height: 100vh;
+        }
+        #footer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        color: white;
+        font-size: 20px;
+        font-style: italic;
         }
 
         section {
         display: grid;
-        grid-template-columns: repeat(6, minmax(0, 1fr));
+        grid-template-columns: repeat(14, minmax(0, 1fr));
         width: 100%;
         }
 
@@ -103,21 +157,33 @@ def get_daily_item_shop():
         display: flex;
         flex-direction: column;
         align-items: center;
+        font-size: 10px;
         }
 
         img {
         width: 99%;
         }
         .v-bucks-logo {
-        width:20px;
+        width: 10px;
         }
         .price {
         display: flex;
         flex-direction: row;
         align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        --tw-space-x-reverse: 0;
+        margin-right: calc(1rem/* 5px */ * var(--tw-space-x-reverse));
+        margin-left: calc(1rem/* 5px */ * calc(1 - var(--tw-space-x-reverse)));
         }
         h1 {
         font-size: 15px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        }
+        span {
+        line-height: 13px;
         }
         """
 
@@ -134,19 +200,15 @@ def get_daily_item_shop():
     except Exception as e:
         print(RED + f"... An error occurred: {e} ...." + RESET)
 
-def get_new_items():
-    options = webdriver.ChromeOptions()
-    options.page_load_strategy = 'none'
-    driver = webdriver.Chrome(options=options)
-    wait = WebDriverWait(driver, 20)
+def get_screenshot():
+    get_daily_item_shop()
 
-    driver.get('https://fortnite.gg/shop?game=br&different')
+    driver = webdriver.Chrome()
 
-    wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'a[href="/shop?game=br&different"].filter.active',)))
-    new_items = driver.find_element(By.CSS_SELECTOR, 'a[href="/shop?game=br&different"].filter.active > span').get_attribute('innerHTML')
+    
+    driver.get(f'file:///{os.getcwd()}/sample.html')
+    driver.fullscreen_window()
+    driver.save_screenshot('screenshot.png')
+    print(GREEN, 'screenshot created', RESET)
 
-    driver.execute_script("window.stop();")
-
-    return new_items
-
-get_daily_item_shop()
+get_screenshot()
