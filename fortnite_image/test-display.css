@@ -29,6 +29,8 @@ img {
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-between;
+  width: 100%;
 }
 h1 {
   font-size: 15px;
@@ -41,8 +43,6 @@ span {
 }
 .description {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  border: 1px solid white;
-  width: 100vh;
+  flex-direction: column;
+  width: 100%;
 }

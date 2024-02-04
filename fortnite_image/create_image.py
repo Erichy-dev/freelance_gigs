@@ -13,7 +13,8 @@ from io import BytesIO
 
 import os
 
-api = fortnite_api.FortniteAPI('9ffab28b-c928-4dfe-a43b-26d3b3b5ce58')
+api = fortnite_api.FortniteAPI('')
+
 GREEN = '\033[92m'
 RED = '\033[91m'
 RESET = '\033[0m'
@@ -41,8 +42,7 @@ def get_daily_item_shop():
         
         date_str = current_shop.raw_data['date']
 
-        date_obj = datetime.fromisoformat(date_str.rstrip('Z'))
-        date = date_obj.strftime('%Y-%m-%d')
+        date = format_date_with_superscript(date_str)
 
         data_to_save = current_shop.raw_data['featured']['entries']
 
@@ -52,7 +52,7 @@ def get_daily_item_shop():
         with open('featured_items.json', 'w') as file:
             file.write(json_data)
 
-        print(GREEN + "Data saved to featured_items.json")
+        print(GREEN + "Data saved to featured_items.json", RESET)
 
         total_items = len(data_to_save)
 
@@ -77,6 +77,8 @@ def get_daily_item_shop():
             if bg:
                 global dominant_color
                 dominant_color = get_dominant_color(bg)
+            else:
+                dominant_color = '(77, 84, 85)'
 
             if data['bundle']:
                 image = data['bundle']['image']
@@ -87,10 +89,14 @@ def get_daily_item_shop():
                 name = name.split(' for ')[0]
             joined_name = ''.join(name.split()).replace("'", "")
             
-            item_history = len(data['items'][0]['shopHistory'])
-            if item_history == 1:
+            item_history = len(data['items'][0]['shopHistory']) - 1
+            item_history_days = f'{item_history} Days'
+            if item_history == 0:
                 new_items += 1
-            
+                item_history_days = '(NEW)'
+            if item_history == 1:
+                item_history_days = f'{item_history} Day'
+
             if not image:
                 total_items -= 1
                 continue
@@ -98,7 +104,16 @@ def get_daily_item_shop():
             html_content_div += f"""
             <div id={joined_name}>
                 <img src={image} alt="product" />
-                <P>{name}<br /> <span class="price"><span><img class="v-bucks-logo" src="{current_shop.raw_data['vbuckIcon']}" alt="">{price}</span> <span>{item_history} Days</span></span></p>
+                <p class='description'>
+                    <span class='name'>{name}</span>
+                    <span class="price">
+                        <span>
+                            <img class="v-bucks-logo" src="{current_shop.raw_data['vbuckIcon']}" alt="">
+                            {price}
+                        </span>
+                        <span>{item_history_days}</span>
+                    </span>
+                </p>
             </div>
             """
             global css_content
@@ -111,19 +126,30 @@ def get_daily_item_shop():
         html_content += f"""
         <h1>
             <span>Fortnite Item Shop</span>
-            <span>{date}</span>
+            {date}
             <span>Shop Items {total_items} ({new_items} New Items)</span>
         </h1>
 
         <section>
             {html_content_div}
         </section>
-        <section id='footer'>hipdiscovery</section>
+        <section id='footer'>
+            <span>Creator Code:</span>
+            <span>hipdiscovery</span>
+        </section>
         </body>
         </html>
         """
 
         css_content += """
+        .description {
+        font-weight: bold;
+        font-size: 9px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        }
         body {
         background-color: black;
         color: white;
@@ -133,14 +159,13 @@ def get_daily_item_shop():
         height: 100vh;
         }
         #footer {
+        font-weight: bold;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding-top: 5px;
-        padding-bottom: 5px;
         color: white;
-        font-size: 20px;
-        font-style: italic;
+        font-size: 10px;
         }
 
         section {
@@ -172,9 +197,6 @@ def get_daily_item_shop():
         align-items: center;
         width: 100%;
         justify-content: space-between;
-        --tw-space-x-reverse: 0;
-        margin-right: calc(1rem/* 5px */ * var(--tw-space-x-reverse));
-        margin-left: calc(1rem/* 5px */ * calc(1 - var(--tw-space-x-reverse)));
         }
         h1 {
         font-size: 15px;
@@ -183,7 +205,7 @@ def get_daily_item_shop():
         align-items: center;
         }
         span {
-        line-height: 13px;
+        line-height: 20px;
         }
         """
 
@@ -210,5 +232,24 @@ def get_screenshot():
     driver.fullscreen_window()
     driver.save_screenshot('screenshot.png')
     print(GREEN, 'screenshot created', RESET)
+
+def format_date_with_superscript(date_str):
+    # Parsing the string to datetime object
+    date_obj = datetime.fromisoformat(date_str.rstrip('Z'))
+
+    # Extracting formatted month, day, and year
+    formatted_month = date_obj.strftime('%B')
+    day = date_obj.day
+    formatted_year = date_obj.strftime('%Y')
+
+    # Determine the ordinal suffix and construct the date string
+    if 4 <= day <= 20 or 24 <= day <= 30:
+        suffix = "th"
+    else:
+        suffix = ["st", "nd", "rd", "th"][day % 10 - 1]
+
+    # Construct the HTML paragraph with the superscript for the suffix
+    html_paragraph = f'<span>{formatted_month} {day}<sup>{suffix}</sup>, {formatted_year}</span>'
+    return html_paragraph
 
 get_screenshot()

@@ -8,11 +8,11 @@
             }
             
             #Ali-A {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #SypherPK {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #TheWeekndCombat {
@@ -28,51 +28,51 @@
             }
             
             #Bugha {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Chica {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Lachlan {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #TheGrefg {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Bandolier {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #JackSkellington {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Lace {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Starfish {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #PWRSlicers {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #JacksSled {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Bandolette {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Bryne {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Budge {
@@ -100,31 +100,31 @@
             }
             
             #Zadie {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #AidasEdge {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Ali-TechStaff {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #BughaBlades {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #StaffofControl {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #SyphersScimitar {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #CoralCruiser {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #CosmicPeckAxe {
@@ -140,19 +140,19 @@
             }
             
             #FreshFish {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #PeppermintParasol {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Scampi {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Vision {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #VisionBoard {
@@ -172,13 +172,21 @@
             }
             
             #Bootstraps {
-            background-color: rgb(5, 52, 57);
+            background-color: rgb(77, 84, 85);
             }
             
             #Jubilation {
             background-color: rgb(5, 52, 57);
             }
             
+        .description {
+        font-weight: bold;
+        font-size: 9px;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+        }
         body {
         background-color: black;
         color: white;
@@ -188,14 +196,13 @@
         height: 100vh;
         }
         #footer {
+        font-weight: bold;
         display: flex;
         flex-direction: column;
         align-items: center;
         padding-top: 5px;
-        padding-bottom: 5px;
         color: white;
-        font-size: 20px;
-        font-style: italic;
+        font-size: 10px;
         }
 
         section {
@@ -227,9 +234,6 @@
         align-items: center;
         width: 100%;
         justify-content: space-between;
-        --tw-space-x-reverse: 0;
-        margin-right: calc(1rem/* 5px */ * var(--tw-space-x-reverse));
-        margin-left: calc(1rem/* 5px */ * calc(1 - var(--tw-space-x-reverse)));
         }
         h1 {
         font-size: 15px;
@@ -238,6 +242,6 @@
         align-items: center;
         }
         span {
-        line-height: 13px;
+        line-height: 20px;
         }
         
