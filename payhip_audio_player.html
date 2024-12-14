@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .player-container {
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 20px;
+            width: 50%;
+            min-width: 300px;
+            max-width: 800px;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+        }
+
+        .audio-player {
+            margin-bottom: 20px;
+        }
+
+        .custom-audio {
+            width: 100%;
+            height: 40px;
+            outline: none;
+            margin-bottom: 15px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            background: #4a4a4a;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .control-btn:hover {
+            background: #666666;
+        }
+
+        .playlist {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .playlist-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: #3a3a3a;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .playlist-item:hover {
+            background: #4a4a4a;
+        }
+
+        .playlist-item.active {
+            background: #505050;
+            border-left: 4px solid #007bff;
+        }
+
+        .title {
+            margin-bottom: 15px;
+            font-size: 14px;
+            color: #cccccc;
+        }
+    </style>
+</head>
+<body>
+    <div class="player-container">
+        <div class="audio-player">
+            <div class="title">Now Playing: Walking Tour - Bacoor Cavite</div>
+            <audio class="custom-audio" controls>
+                <source src="" type="audio/mp3">
+                Your browser does not support the audio element.
+            </audio>
+            <div class="controls">
+                <button class="control-btn" id="prevBtn">Previous</button>
+                <button class="control-btn" id="nextBtn">Next</button>
+                <button class="control-btn" id="shuffleBtn">Shuffle</button>
+            </div>
+        </div>
+        <div class="playlist" id="playlist"></div>
+    </div>
+
+    <script>
+        const audioList = [
+            {
+                title: "Akon don't matter",
+                url: "https://res.cloudinary.com/dgaqws2ux/video/upload/v1734112988/payhip/akon_don_t_matter_lyrics_mp3_55536_lutkef.mp3"
+            },
+            {
+                title: "Akon lonely",
+                url: "https://res.cloudinary.com/dgaqws2ux/video/upload/v1734112981/payhip/akon_lonely_lyrics_mp3_55567_gatw6q.mp3"
+            },
+            {
+                title: "Akon beautiful ft colby o donis",
+                url: "https://res.cloudinary.com/dgaqws2ux/video/upload/v1734112981/payhip/akon-beautiful_lyrics_feat._colby_o_donis_kardinal_offishall_mp3_55970_gvh4o2.mp3"
+            },
+            {
+                title: "Backstreet boys I want it that way",
+                url: "https://res.cloudinary.com/dgaqws2ux/video/upload/v1734112973/payhip/backstreet_boys_i_want_it_that_way_mp3_55719_bc6sir.mp3"
+            },
+            {
+                title: "Walking Tour 5 - Bacoor Cavite",
+                url: "https://res.cloudinary.com/dgaqws2ux/video/upload/v1734029976/payhip/How_Serious_is_Poverty_in_the_Philippines_4kwalk_walkingtour_bacoorcavite_9yaSKgynj78_iuceqc.mp3"
+            }
+        ];
+
+        let currentTrackIndex = 0;
+        const audio = document.querySelector('.custom-audio');
+        const titleDisplay = document.querySelector('.title');
+        const playlist = document.getElementById('playlist');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+
+        // Initialize playlist
+        function initializePlaylist() {
+            audioList.forEach((track, index) => {
+                const item = document.createElement('div');
+                item.classList.add('playlist-item');
+                if (index === 0) item.classList.add('active');
+                item.textContent = track.title;
+                item.addEventListener('click', () => playTrack(index));
+                playlist.appendChild(item);
+            });
+            loadTrack(0);
+        }
+
+        // Load and play track
+        function loadTrack(index) {
+            if (index < 0) index = audioList.length - 1;
+            if (index >= audioList.length) index = 0;
+            
+            currentTrackIndex = index;
+            audio.src = audioList[index].url;
+            titleDisplay.textContent = "Now Playing: " + audioList[index].title;
+            
+            // Update active class
+            document.querySelectorAll('.playlist-item').forEach((item, i) => {
+                item.classList.toggle('active', i === index);
+            });
+            
+            audio.play();
+        }
+
+        function playTrack(index) {
+            loadTrack(index);
+        }
+
+        // Shuffle playlist
+        function shufflePlaylist() {
+            const currentTrack = audioList[currentTrackIndex];
+            for (let i = audioList.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [audioList[i], audioList[j]] = [audioList[j], audioList[i]];
+            }
+            currentTrackIndex = audioList.findIndex(track => track === currentTrack);
+            
+            // Rebuild playlist display
+            playlist.innerHTML = '';
+            initializePlaylist();
+        }
+
+        // Event Listeners
+        prevBtn.addEventListener('click', () => loadTrack(currentTrackIndex - 1));
+        nextBtn.addEventListener('click', () => loadTrack(currentTrackIndex + 1));
+        shuffleBtn.addEventListener('click', shufflePlaylist);
+
+        // Auto-play next track when current track ends
+        audio.addEventListener('ended', () => loadTrack(currentTrackIndex + 1));
+
+        // Initialize the player
+        initializePlaylist();
+    </script>
+</body>
+</html>

@@ -61,7 +61,7 @@ class RaydiumSwap:
     """
 
     async with aiohttp.ClientSession() as session:
-      async with session.get(f"{BASE_HOST}{PRIORITY_FEE}") as response:
+      async with session.get(f"{PRIORITY_FEE}") as response:
           final_response = await response.json()
           print(final_response)
           return final_response
@@ -189,9 +189,9 @@ async def main():
   
   swap = RaydiumSwap(sol_client)
   # await swap.fetch_token_account_data()
-  # await swap.get_priority_fee()
+  await swap.get_priority_fee()
   # await swap.fetch_token_account_data()
-  await swap.api_swap()
+  # await swap.api_swap()
 
   await sol_client.close()
 
